@@ -9,4 +9,9 @@
     <Compile Include="Program.fs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="../UwebFiles/UwebFiles.fsproj">
+      <Name>UwebStatic.fsproj</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

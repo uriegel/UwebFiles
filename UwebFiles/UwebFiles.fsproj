@@ -1,11 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
-    <Compile Include="Library.fs" />
+    <Compile Include="MimeTypes.fs" />
+    <Compile Include="Files.fs" />
   </ItemGroup>
-
+  <ItemGroup>
+    <PackageReference Include="UwebServer" Version="4.2.2" />
+  </ItemGroup>
 </Project>
