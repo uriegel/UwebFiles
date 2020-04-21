@@ -5,6 +5,18 @@ open System.IO.Compression
 open ResponseData
 open Session
 
+let asyncSendNotFound (requestSession: RequestSession) = async {
+    let requestData = requestSession.RequestData :?> RequestData.RequestData
+    let responseData = ResponseData.create requestData
+    do! Response.asyncSendNotFound responseData 
+}
+
+let asyncSend304 (requestSession: RequestSession) = async {
+    let requestData = requestSession.RequestData :?> RequestData.RequestData
+    let responseData = ResponseData.create requestData
+    do! Response.asyncSend304 responseData 
+}
+
 let asyncSendStream responseData (stream: Stream) (contentType: string) lastModified = 
     async {
         let mutable headers = Map.empty
@@ -114,6 +126,8 @@ let serveFile (requestSession: RequestSession) file = async {
     let responseData = create requestData
     do! asyncSendFile file responseData
 }
+
+
     
 // let asyncSendFile (file: string) responseData = async {
 //     if file.EndsWith (".mp4", StringComparison.InvariantCultureIgnoreCase)
