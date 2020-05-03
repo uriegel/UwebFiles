@@ -17,7 +17,7 @@ let asyncSend304 (requestSession: RequestSession) = async {
     do! Response.asyncSend304 responseData 
 }
 
-let asyncSendStream responseData (stream: Stream) (contentType: string) lastModified = 
+let private asyncSendStream responseData (stream: Stream) (contentType: string) lastModified  = 
     async {
         let mutable headers = Map.empty
         let mutable streamToSend = stream
@@ -42,7 +42,9 @@ let asyncSendStream responseData (stream: Stream) (contentType: string) lastModi
             
             streamToSend <- ms
 
-        if lastModified <> "" then headers <- headers.Add("Last-Modified", lastModified)     
+        match lastModified with
+        | Some lastModified -> headers <- headers.Add("Last-Modified", lastModified)     
+        | None -> ()
         // TODO:
         let noCache = false
         if noCache then
@@ -113,7 +115,7 @@ let asyncSendFile (file: string) (responseData: ResponseData) = async {
             | _ ->  MimeTypes.get fi.Extension
        
         let dateTime = fi.LastWriteTime
-        let lastModified = dateTime.ToUniversalTime().ToString "r"
+        let lastModified = Some (dateTime.ToUniversalTime().ToString "r")
 
         use stream = File.OpenRead file
         do! asyncSendStream responseData stream contentType lastModified
@@ -121,13 +123,17 @@ let asyncSendFile (file: string) (responseData: ResponseData) = async {
         do! Response.asyncSend304 responseData
 }
 
-let serveFile (requestSession: RequestSession) file = async {
+let serveStream requestSession stream contentType lastModified = async {      
+    let requestData = requestSession.RequestData :?> RequestData.RequestData
+    let responseData = create requestData
+    do! asyncSendStream responseData stream contentType lastModified
+}
+
+let serveFile requestSession file = async {
     let requestData = requestSession.RequestData :?> RequestData.RequestData
     let responseData = create requestData
     do! asyncSendFile file responseData
 }
-
-
     
 // let asyncSendFile (file: string) responseData = async {
 //     if file.EndsWith (".mp4", StringComparison.InvariantCultureIgnoreCase)
