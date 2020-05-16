@@ -146,6 +146,7 @@ let private asyncSendStreamOrRange responseData (stream: Stream) (contentType: s
     match contentType with
     // TODO: //         || file.EndsWith (".mkv", StringComparison.InvariantCultureIgnoreCase)
     | "video/mp4"  
+    | "video/mpeg"  
     | "audio/mpeg"
     | "audio/wav" -> asyncSendRange responseData stream contentType lastModified
     | _ -> asyncSendStream responseData stream contentType lastModified
