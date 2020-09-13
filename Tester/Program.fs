@@ -13,7 +13,7 @@ let request (requestSession: RequestSession) =
             do! Files.serveFile requestSession "assets/film.html"
             return true
         | "/filmfile" -> 
-            do! Files.serveFile requestSession "/media/uwe/Video/Videos/HD/FullMetalJacket.mp4"
+            do! Files.serveFile requestSession "/media/speicher/projekte/UwebServer/webroot/Reitbeteiligung/Convoy.mp4"
             return true
         | _ -> return false
     }
