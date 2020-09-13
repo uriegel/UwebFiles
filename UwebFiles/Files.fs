@@ -4,6 +4,7 @@ open System.IO
 open System.IO.Compression
 open ResponseData
 open Session
+open FSharpTools
 
 let asyncSendNotFound (requestSession: RequestSession) = async {
     let requestData = requestSession.RequestData :?> RequestData.RequestData

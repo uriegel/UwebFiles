@@ -1,8 +1,6 @@
 ﻿open Session
 open Request
 
-System.IO.Directory.SetCurrentDirectory "/media/speicher/projekte/UwebFiles"
-
 printfn "Starting Test Server"
 
 let request (requestSession: RequestSession) =
